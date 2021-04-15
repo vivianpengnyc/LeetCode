@@ -1,0 +1,44 @@
+class SnapshotArray(object):
+
+    def __init__(self, length):
+        """
+        :type length: int
+        """
+        self.li = []
+        self.dict = {}
+        
+
+    def set(self, index, val):
+        """
+        :type index: int
+        :type val: int
+        :rtype: None
+        """
+        self.dict[index] = val
+        
+        
+
+    def snap(self):
+        """
+        :rtype: int
+        """
+        # Very important to note!!!
+        # When appending a new element to a new list
+        # Make sure to use dict(self.dict) 
+        self.li.append(dict(self.dict))
+        return (len(self.li) - 1)
+        
+
+    def get(self, index, snap_id):
+        """
+        :type index: int
+        :type snap_id: int
+        :rtype: int
+        """
+        return self.li[snap_id].get(index, 0)
+
+# Your SnapshotArray object will be instantiated and called as such:
+# obj = SnapshotArray(length)
+# obj.set(index,val)
+# param_2 = obj.snap()
+# param_3 = obj.get(index,snap_id)
