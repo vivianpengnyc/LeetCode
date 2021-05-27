@@ -1,0 +1,69 @@
+import math
+class Solution:
+    
+    # made a mistake for not using recursion
+    # REMEMBER: need to quickSelect on the array multiple times to get the right order
+
+        def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+            if not points or not k:
+                return []
+            
+            self.quickSelect(0, len(points)-1, points, k)
+            return points[:k]
+        
+        
+        def quickSelect(self, start, end, array, k):
+            
+            if start > end:
+                return
+       
+            
+            pivot = self.partition(start, end, array)
+            if pivot + 1 == k:
+                return array[:k]
+            
+            elif pivot + 1 < k:
+                # we successfully find pivot + 1 th largest element in the array (not all are sorted though)!!
+                
+                # need to find the pivot + 1th through kth largest elements in the array
+                # known element with index = 0 and index = pivot are all sorted
+                # need to parition on element with index = pivot + 1 to index = len(points) + 1
+                self.quickSelect(pivot+1, end, array, k)
+            
+            else:# pivot + 1 > k:
+                
+                # we successfully find the pivot + 1 th largest elements in the array 
+                # but we need to narrow down the array to make sure we find the kth largest elements with index (k - 1)
+                self.quickSelect(start, pivot - 1, array, k)
+                
+            return
+                
+        def partition(self, left, right, array):
+
+            """
+            return the j+1th lowest element in array's index
+            """
+
+            if left == right:
+                return left
+
+            pivot = right
+
+            j = left
+
+            pivot_distance = self.distance(array[pivot])
+
+            for i in range(left,right): # linear scan
+                if self.distance(array[i]) <= pivot_distance:
+                    array[i], array[j] = array[j], array[i]
+                    j+=1
+
+            array[pivot], array[j] = array[j], array[pivot]
+
+            return j 
+
+
+        def distance(self, point_coord):
+            return math.sqrt(point_coord[0]**2 + point_coord[1]**2)
+
+            
